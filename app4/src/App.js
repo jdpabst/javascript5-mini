@@ -8,22 +8,34 @@ class App extends Component {
     this.state = {
       cars: []
     }
+    this.getCars = this.getCars.bind(this);
   }
 
   getCars() {
     axios.get('https://joes-autos.herokuapp.com/api/vehicles')
     .then(res => {
       this.setState({
-        cars: res
+        cars: res.data
       })
     })
   }
 
   render() {
+    let arr = this.state.cars;
     return (
       <div className="App">
         <button onClick={this.getCars}>Get cars</button>
-        {this.state.cars}
+        {arr.map((car, id) => {
+          console.log(car);
+           return <div key={id}>
+            <ul>
+              <li>MAKE: {car.make}</li>
+              <li>MODEL: {car.model}</li>
+              <li>YEAR: {car.year}</li>
+              <li>COLOR: {car.color}</li>
+            </ul>
+           </div>
+        })}
       </div>
     );
   }
